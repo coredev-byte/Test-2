@@ -4,18 +4,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        cream: "#F7F3ED",
-        sand: "#EAE2D6",
-        cocoa: { DEFAULT: "#3E2C23", light: "#5B4335" },
-        slate: { brand: "#5F7F98", soft: "#8FA9BD", deep: "#2E4658" },
-        gold: "#B08A62",
+        paper: "#F2EEE8",
+        cream: "#F8F5F0",
+        sand: "#E6DED2",
+        cocoa: { DEFAULT: "#4A382C", light: "#6B5546", dark: "#2F231B" },
+        slate: { brand: "#4F7A93", soft: "#8DAFC2", deep: "#2B4556" },
+        gold: "#A88462",
       },
       fontFamily: {
-        serif: ['"Playfair Display"', "Georgia", "serif"],
-        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ['"Bodoni Moda"', "Didot", "Georgia", "serif"],
+        script: ['"Mrs Saint Delafield"', "cursive"],
+        sans: ["Montserrat", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        soft: "0 20px 60px -20px rgba(62,44,35,.25)",
+        soft: "0 24px 60px -24px rgba(47,35,27,.35)",
       },
     },
   },

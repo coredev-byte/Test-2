@@ -29,8 +29,8 @@ export default function WhatsAppFloat() {
             >
               <X size={14} />
             </button>
-            <p className="font-semibold">Olá! 👋</p>
-            <p className="mt-1 text-cocoa/70">Quer agendar sua consulta? Fale com a gente pelo WhatsApp.</p>
+            <p className="font-semibold">Clínica Viano Saúde</p>
+            <p className="mt-1 text-cocoa/70">Agende sua consulta por aqui. Respondemos no WhatsApp.</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -42,7 +42,7 @@ export default function WhatsAppFloat() {
         aria-label="Agendar consulta pelo WhatsApp"
         initial={{ scale: 0, rotate: -45 }}
         animate={{ scale: 1, rotate: 0 }}
-        transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.8 }}
+        transition={{ type: "spring", stiffness: 260, damping: 18, delay: 2 }}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
         className="relative grid h-16 w-16 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_12px_30px_-6px_rgba(37,211,102,.6)]"

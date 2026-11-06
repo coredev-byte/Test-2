@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <title>Proposta — Site Dr. Otávio Viano</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&display=swap" rel="stylesheet" />
 <style>
   :root { --cream:#F7F3ED; --sand:#EAE2D6; --cocoa:#3E2C23; --slate:#5F7F98; --soft:#8FA9BD; --deep:#2E4658; --gold:#B08A62; --muted:#6f5f56; }
   @page { size: A4; margin: 0; }
@@ -11,7 +11,7 @@
   body { font-family: Inter, sans-serif; color: var(--cocoa); font-size: 10.5pt; line-height: 1.55; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .page { width: 210mm; height: 297mm; padding: 18mm 18mm 16mm; position: relative; overflow: hidden; page-break-after: always; background: #fff; }
   .page:last-child { page-break-after: auto; }
-  h1, h2, h3 { font-family: "Playfair Display", serif; font-weight: 600; line-height: 1.15; }
+  h1, h2, h3 { font-family: "Bodoni Moda", serif; font-weight: 600; line-height: 1.15; }
   h2 { font-size: 24pt; margin-bottom: 4mm; }
   h3 { font-size: 13pt; margin-bottom: 1.5mm; }
   em { color: var(--slate); }
@@ -23,15 +23,17 @@
   .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
   .card { background: var(--cream); border-radius: 3mm; padding: 5mm; }
   .card p { font-size: 9.5pt; }
-  .num { font-family: "Playfair Display", serif; color: var(--gold); font-size: 15pt; }
+  .num { font-family: "Bodoni Moda", serif; color: var(--gold); font-size: 15pt; }
   ul.check { list-style: none; }
-  ul.check li { padding-left: 6mm; position: relative; margin: 1.6mm 0; color: var(--cocoa); }
+  ul.check li { padding-left: 6mm; position: relative; margin: 1.1mm 0; color: var(--cocoa); }
   ul.check li::before { content: "✓"; position: absolute; left: 0; color: var(--slate); font-weight: 700; }
 
   /* capa */
   .cover { background: var(--cream); padding: 0; }
   .cover .top { padding: 22mm 18mm 0; }
-  .brand { display:flex; align-items:center; gap: 3mm; font-family:"Playfair Display",serif; font-size: 13pt; font-weight: 600; }
+  .brand { display:flex; align-items:center; gap: 3mm; font-family:"Bodoni Moda",serif; font-size: 13pt; font-weight: 600; }
+  .wm { font-family: Montserrat, Inter, sans-serif; font-size: 7pt; font-weight: 700; letter-spacing: .14em; line-height: 1.2; }
+  .wm span { display:block; } .wm .b { color: var(--slate); font-size: 9.5pt; }
   .brand small { display:block; font-family: Inter; font-size: 6.5pt; letter-spacing:.22em; color: var(--slate); font-weight:600; }
   .cover h1 { font-size: 38pt; margin-top: 18mm; }
   .cover .lead { font-size: 12pt; margin-top: 6mm; max-width: 150mm; }
@@ -55,14 +57,14 @@
 
   /* preço */
   .price { background: var(--cocoa); color: var(--cream); border-radius: 5mm; padding: 10mm; position: relative; overflow: hidden; }
-  .price .val { font-family: "Playfair Display", serif; font-size: 44pt; line-height: 1; color: #fff; }
+  .price .val { font-family: "Bodoni Moda", serif; font-size: 44pt; line-height: 1; color: #fff; }
   .price .val small { font-size: 16pt; vertical-align: top; margin-right: 1.5mm; color: var(--gold); }
   .price p { color: rgba(247,243,237,.75); }
   .price ul.check li { color: var(--cream); }
   .price ul.check li::before { color: var(--gold); }
   .note { font-size: 8.5pt; color: #8a7b71; }
   table { width:100%; border-collapse: collapse; font-size: 9.5pt; }
-  td { padding: 2.4mm 0; border-bottom: 1px solid #eee6dc; vertical-align: top; }
+  td { padding: 1.7mm 0; border-bottom: 1px solid #eee6dc; vertical-align: top; }
   td:first-child { font-weight: 600; width: 45mm; }
 </style>
 </head>
@@ -73,7 +75,7 @@
   <div class="blob" style="width:120mm;height:120mm;right:-40mm;top:-30mm;background:rgba(143,169,189,.45)"></div>
   <div class="blob" style="width:90mm;height:90mm;left:-40mm;top:90mm;background:rgba(176,138,98,.25)"></div>
   <div class="top" style="position:relative">
-    <div class="brand">{{LOGO}}<div>Viano Saúde<small>DR. OTÁVIO VIANO</small></div></div>
+    <div class="brand">{{LOGO}}<div class="wm"><span>CLÍNICA</span><span class="b">VIANO</span><span>SAÚDE</span></div></div>
     <h1>Proposta de <em>site profissional</em><br/>para a Clínica Viano Saúde</h1>
     <p class="lead">Um site rápido, elegante e pronto para transformar buscas no Google e visitas do Instagram em consultas agendadas pelo WhatsApp.</p>
     <div class="meta">
@@ -109,7 +111,7 @@
 
   <div class="card" style="margin-top:8mm; background: var(--sand)">
     <h3>Identidade preservada</h3>
-    <p>Paleta, tipografia e símbolo foram inspirados nas artes que a clínica já publica (tons creme, marrom e azul acinzentado, folhas). Assim, quem chega do Instagram reconhece a marca na hora.</p>
+    <p>O site usa a logo oficial da Clínica Viano Saúde e a mesma linguagem das artes do Instagram: papel creme, serifa azul, letras espaçadas e o “e depois” manuscrito. Quem chega do Instagram reconhece a marca na hora.</p>
   </div>
   <div class="foot"><span>Proposta · Site Dr. Otávio Viano</span><span>2</span></div>
 </section>
@@ -127,12 +129,12 @@
 
   <div style="display:grid; grid-template-columns: 1.55fr .6fr; gap: 6mm; margin-top: 7mm; align-items:start">
     <div style="display:grid; gap:5mm">
+      <img class="shot" src="img/desktop-resultados-titulo.png" />
       <img class="shot" src="img/desktop-tratamentos.png" />
-      <img class="shot" src="img/desktop-sobre.png" />
     </div>
     <div style="display:grid; gap:5mm">
       <img class="shot" src="img/mobile-hero.png" />
-      <img class="shot" src="img/mobile-tratamentos.png" />
+      <img class="shot" src="img/mobile-resultados.png" />
     </div>
   </div>
   <div class="foot"><span>Proposta · Site Dr. Otávio Viano</span><span>3</span></div>
@@ -146,13 +148,14 @@
     <div>
       <h3>No site</h3>
       <ul class="check">
-        <li>Design exclusivo, com animações suaves</li>
+        <li>Design exclusivo, com animações em toda a página</li>
         <li>100% responsivo (celular, tablet e computador)</li>
         <li>Botão flutuante de WhatsApp com mensagem automática</li>
         <li>Mensagem personalizada por tratamento (o paciente já chega dizendo o que procura)</li>
+        <li>Logo oficial da clínica e identidade das artes do Instagram</li>
+        <li><b>Antes e depois interativo:</b> o paciente arrasta a barra e compara os resultados</li>
         <li>Seções: sobre o médico, tratamentos, como funciona, dúvidas frequentes</li>
-        <li>Carregamento rápido (React + Vite, hospedagem Vercel)</li>
-        <li>SEO técnico: títulos, descrições, sitemap e dados estruturados de médico para o Google</li>
+        <li>Rápido e otimizado para o Google (SEO técnico)</li>
       </ul>
     </div>
     <div>
@@ -167,12 +170,13 @@
     </div>
   </div>
 
-  <h3 style="margin-top:8mm">Métodos de marketing que pensamos</h3>
+  <h3 style="margin-top:5mm">Métodos de marketing que pensamos</h3>
   <table style="margin-top:2mm">
     <tr><td>SEO local</td><td>Conteúdo otimizado para buscas como “emagrecimento + cidade”, “implante hormonal + MT”. Tráfego gratuito e contínuo no médio prazo.</td></tr>
     <tr><td>Google Ads (pesquisa)</td><td>Anúncios para quem já está procurando o tratamento, segmentados por raio a partir da clínica e por horário de atendimento.</td></tr>
     <tr><td>Google Maps</td><td>Perfil completo da clínica com fotos, horários e avaliações: é o que aparece primeiro em buscas “perto de mim”.</td></tr>
     <tr><td>Instagram → site</td><td>Bio, destaques e stories levando ao site. O conteúdo que já é produzido passa a gerar agendamentos.</td></tr>
+    <tr><td>Prova de resultado</td><td>Antes e depois reais em destaque logo após a abertura, com autorização dos pacientes e aviso de que resultados variam.</td></tr>
     <tr><td>Remarketing</td><td>Anúncios para quem visitou o site e não chamou no WhatsApp.</td></tr>
     <tr><td>Ofertas sazonais</td><td>Espaço para campanhas como a “Oferta Relâmpago” já usada no Instagram, com página e link próprios.</td></tr>
   </table>

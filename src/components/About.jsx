@@ -1,60 +1,66 @@
-import { motion } from "framer-motion";
-import { GraduationCap, Building2, Stethoscope } from "lucide-react";
-import Reveal from "./Reveal.jsx";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Reveal, { SplitWords } from "./Reveal.jsx";
 import { CRM, INSTAGRAM_DR } from "../config.js";
 
 const facts = [
-  { icon: Stethoscope, title: "Médico", text: `Registro ativo ${CRM}` },
-  { icon: GraduationCap, title: "Endocrinologia", text: "Pós-graduação em andamento" },
-  { icon: Building2, title: "Viano Saúde", text: "Clínica própria com estrutura completa" },
+  ["Registro", `Médico · ${CRM}`],
+  ["Formação", "Pós-graduação em Endocrinologia (em andamento)"],
+  ["Atuação", "Emagrecimento, implantes hormonais e hipertrofia"],
+  ["Clínica", "Viano Saúde, Mato Grosso"],
 ];
 
 export default function About() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const yImg = useTransform(scrollYProgress, [0, 1], [60, -60]);
+  const rot = useTransform(scrollYProgress, [0, 1], [-6, 4]);
+
   return (
-    <section id="sobre" className="py-24 md:py-32">
-      <div className="container-x grid items-center gap-16 md:grid-cols-2">
-        <Reveal className="relative mx-auto">
-          <div className="relative grid h-72 w-72 place-items-center md:h-96 md:w-96">
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-0 rounded-full border-2 border-dashed border-gold/40"
+    <section id="sobre" ref={ref} className="py-24 md:py-36">
+      <div className="container-x grid items-center gap-16 md:grid-cols-[.8fr_1.2fr] md:gap-24">
+        <div className="relative mx-auto w-56 md:w-full md:max-w-[270px]">
+          <motion.div style={{ rotate: rot }} className="absolute -inset-4 rounded-t-full border border-cocoa/25" />
+          <motion.div style={{ y: yImg }} className="relative aspect-[3/4] overflow-hidden rounded-t-full bg-sand">
+            <motion.img
+              src="/dr-otavio-retrato.jpg"
+              alt="Dr. Otávio Viano"
+              className="h-full w-full object-cover object-top"
+              initial={{ scale: 1.25, filter: "grayscale(1)" }}
+              whileInView={{ scale: 1, filter: "grayscale(0)" }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
             />
-            <div className="absolute inset-6 rounded-full bg-gradient-to-br from-slate-soft/50 to-sand" />
-            <img
-              src="/dr-otavio.png"
-              alt="Dr. Otávio Viano, médico"
-              className="relative h-56 w-56 rounded-full object-cover shadow-soft md:h-72 md:w-72"
-            />
-          </div>
-        </Reveal>
+          </motion.div>
+          <p className="absolute -bottom-10 -right-6 rotate-[-8deg] font-script text-5xl text-cocoa">Dr. Otávio</p>
+        </div>
 
         <div>
-          <Reveal><span className="eyebrow">Sobre o médico</span></Reveal>
-          <Reveal delay={0.1}>
-            <h2 className="h-section mt-5">Cuidado próximo, decisões baseadas em evidência.</h2>
-          </Reveal>
+          <Reveal><p className="kicker">O médico</p></Reveal>
+          <h2 className="h-section mt-6">
+            <SplitWords text="Consulta sem pressa, plano sem fórmula pronta." />
+          </h2>
           <Reveal delay={0.2}>
-            <p className="mt-6 text-lg leading-relaxed text-cocoa/70">
-              Sou o Dr. Otávio Viano, médico e pós-graduando em Endocrinologia. Meu trabalho é entender
-              sua história, seus exames e seus objetivos para construir um plano realista, seja para
-              emagrecer com saúde, equilibrar seus hormônios ou ganhar massa muscular com segurança.
+            <p className="mt-8 max-w-xl text-[15px] leading-relaxed text-cocoa/75">
+              Antes de qualquer protocolo, o Dr. Otávio Viano levanta seu histórico, avalia exames e entende sua rotina.
+              Só então define o caminho, seja para perder peso, ajustar hormônios ou ganhar massa muscular, e acompanha
+              cada etapa de perto nos retornos.
             </p>
           </Reveal>
-          <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            {facts.map(({ icon: Icon, title, text }, i) => (
-              <Reveal key={title} delay={0.25 + i * 0.1}>
-                <div className="h-full rounded-2xl border border-cocoa/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:shadow-soft">
-                  <Icon className="text-slate-brand" size={22} />
-                  <p className="mt-3 font-semibold">{title}</p>
-                  <p className="mt-1 text-sm text-cocoa/60">{text}</p>
+
+          <dl className="mt-12 border-t border-cocoa/15">
+            {facts.map(([k, v], i) => (
+              <Reveal key={k} delay={0.1 + i * 0.08} y={16}>
+                <div className="grid grid-cols-[110px_1fr] gap-4 border-b border-cocoa/15 py-4 text-sm">
+                  <dt className="text-[11px] font-semibold uppercase tracking-[.25em] text-slate-brand">{k}</dt>
+                  <dd className="text-cocoa">{v}</dd>
                 </div>
               </Reveal>
             ))}
-          </div>
-          <Reveal delay={0.5}>
-            <a href={INSTAGRAM_DR} target="_blank" rel="noopener noreferrer" className="mt-8 inline-block text-sm font-semibold text-slate-brand underline-offset-4 hover:underline">
-              Acompanhe no Instagram @dr_otavioviano →
+          </dl>
+          <Reveal delay={0.4}>
+            <a href={INSTAGRAM_DR} target="_blank" rel="noopener noreferrer" className="link-line mt-8">
+              @dr_otavioviano no Instagram →
             </a>
           </Reveal>
         </div>

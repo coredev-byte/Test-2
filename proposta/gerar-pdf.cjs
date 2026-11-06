@@ -6,8 +6,7 @@ const { chromium } = require("playwright");
 
 const SITE_URL = process.env.SITE_URL || "https://dr-otavio-viano.vercel.app";
 const dir = __dirname;
-const logo = fs.readFileSync(path.join(dir, "..", "public", "favicon.svg"), "utf8")
-  .replace("<svg ", '<svg width="34" height="34" ');
+const logo = `<img src="${path.join(dir, "..", "public", "logo-simbolo.png")}" style="height:11mm" />`;
 const data = new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
 
 const html = fs.readFileSync(path.join(dir, "proposta.html"), "utf8")

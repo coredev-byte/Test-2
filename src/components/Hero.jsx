@@ -1,107 +1,78 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, BadgeCheck, HeartPulse, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import WhatsAppIcon from "./WhatsAppIcon.jsx";
-import { LeafMark } from "./Logo.jsx";
+import Magnetic from "./Magnetic.jsx";
+import { ScriptWrite, SplitWords } from "./Reveal.jsx";
 import { CRM, waLink } from "../config.js";
 
 const ease = [0.22, 1, 0.36, 1];
-const fadeUp = (d) => ({
-  initial: { opacity: 0, y: 28 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.8, delay: d, ease },
-});
+const D = 1.4; // espera o preloader sair
+
+function RingText() {
+  const text = "AGENDE SUA CONSULTA • CLÍNICA VIANO SAÚDE • ";
+  return (
+    <svg viewBox="0 0 200 200" className="animate-spin-slow absolute inset-0 h-full w-full" aria-hidden="true">
+      <defs><path id="ring" d="M100,100 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0" /></defs>
+      <text fontSize="9.6" letterSpacing="4.1" fontWeight="600" fill="#4A382C" fontFamily="Montserrat">
+        <textPath href="#ring">{text}</textPath>
+      </text>
+    </svg>
+  );
+}
 
 export default function Hero() {
   const { scrollY } = useScroll();
-  const yBlob = useTransform(scrollY, [0, 600], [0, 120]);
-  const yCard = useTransform(scrollY, [0, 600], [0, -60]);
+  const yLogo = useTransform(scrollY, [0, 700], [0, 140]);
+  const rLogo = useTransform(scrollY, [0, 700], [0, -25]);
+  const yText = useTransform(scrollY, [0, 700], [0, -60]);
 
   return (
-    <section id="inicio" className="relative overflow-hidden pb-20 pt-32 md:pb-28 md:pt-40">
-      {/* fundo animado */}
-      <motion.div style={{ y: yBlob }} className="pointer-events-none absolute inset-0 -z-10">
-        <motion.div
-          animate={{ scale: [1, 1.12, 1], x: [0, 30, 0] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -right-32 -top-24 h-[520px] w-[520px] rounded-full bg-slate-soft/30 blur-3xl"
-        />
-        <motion.div
-          animate={{ scale: [1, 1.18, 1], y: [0, -30, 0] }}
-          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -left-40 top-40 h-[440px] w-[440px] rounded-full bg-gold/20 blur-3xl"
-        />
-      </motion.div>
-
-      <div className="container-x grid items-center gap-14 md:grid-cols-[1.15fr_.85fr]">
-        <div>
-          <motion.span {...fadeUp(0.05)} className="eyebrow">
-            <BadgeCheck size={14} /> Médico · {CRM}
-          </motion.span>
-          <motion.h1 {...fadeUp(0.15)} className="mt-6 font-serif text-[2.6rem] leading-[1.05] md:text-7xl">
-            Seu corpo em <em className="text-slate-brand">equilíbrio</em>, com ciência e cuidado.
-          </motion.h1>
-          <motion.p {...fadeUp(0.3)} className="mt-6 max-w-xl text-lg leading-relaxed text-cocoa/70">
-            Emagrecimento, implantes hormonais e hipertrofia com acompanhamento médico individualizado.
-            Pós-graduando em Endocrinologia, o Dr. Otávio Viano une avaliação completa e protocolos
-            personalizados na <strong className="font-semibold text-cocoa">Clínica Viano Saúde</strong>.
+    <section id="inicio" className="relative overflow-hidden pb-16 pt-32 md:min-h-screen md:pb-24 md:pt-40">
+      <div className="container-x grid items-center gap-14 md:grid-cols-[1.25fr_.75fr]">
+        <motion.div style={{ y: yText }}>
+          <motion.p className="kicker" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: D, duration: 0.8, ease }}>
+            Dr. Otávio Viano · {CRM}
           </motion.p>
-          <motion.div {...fadeUp(0.45)} className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <a href={waLink()} target="_blank" rel="noopener noreferrer" className="btn-primary group">
+
+          <h1 className="relative mt-8 font-display text-[3.4rem] leading-[0.95] text-slate-brand sm:text-7xl md:text-[6.4rem]">
+            <SplitWords text="Emagrecer," className="block" delay={D + 0.1} animateNow />
+            <SplitWords text="equilibrar," className="block" delay={D + 0.25} animateNow />
+            <SplitWords text="fortalecer." className="block" delay={D + 0.4} animateNow />
+            <ScriptWrite animateNow delay={D + 1} className="absolute -bottom-6 right-0 -rotate-6 text-[2.6rem] leading-none text-cocoa sm:text-6xl md:-bottom-8 md:right-4 md:text-7xl">
+              com acompanhamento
+            </ScriptWrite>
+          </h1>
+
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: D + 0.8, duration: 0.8, ease }} className="mt-16 max-w-lg text-[15px] leading-relaxed text-cocoa/75">
+            Emagrecimento, implantes hormonais e hipertrofia com consulta completa, exames e retornos.
+            O Dr. Otávio Viano é pós-graduando em Endocrinologia e atende na Clínica Viano Saúde, em Mato Grosso.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: D + 1, duration: 0.8, ease }} className="mt-10 flex flex-wrap items-center gap-8">
+            <Magnetic href={waLink()} target="_blank" rel="noopener noreferrer" className="btn-primary">
               <WhatsAppIcon className="h-5 w-5" /> Agendar pelo WhatsApp
-              <ArrowRight size={16} className="transition group-hover:translate-x-1" />
+            </Magnetic>
+            <a href="#resultados" className="link-line">
+              Ver antes e depois <ArrowDown size={15} />
             </a>
-            <a href="#tratamentos" className="btn-ghost">Conhecer tratamentos</a>
           </motion.div>
-          <motion.ul {...fadeUp(0.6)} className="mt-10 flex flex-wrap gap-x-7 gap-y-3 text-sm text-cocoa/70">
-            <li className="flex items-center gap-2"><ShieldCheck size={16} className="text-slate-brand" /> Protocolos individualizados</li>
-            <li className="flex items-center gap-2"><HeartPulse size={16} className="text-slate-brand" /> Exames e acompanhamento</li>
-          </motion.ul>
-        </div>
+        </motion.div>
 
-        {/* composição visual */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
+          style={{ y: yLogo, rotate: rLogo }}
+          initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.25, ease }}
-          className="relative mx-auto w-full max-w-sm"
+          transition={{ delay: D, duration: 1.2, ease }}
+          className="relative mx-auto aspect-square w-72 md:w-full md:max-w-[400px]"
         >
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-sand via-white to-slate-soft/40 shadow-soft">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-              className="absolute -right-16 -top-16 h-64 w-64 rounded-full border border-dashed border-slate-brand/30"
-            />
-            <div className="absolute inset-0 grid place-items-center">
-              <div className="text-center">
-                <LeafMark className="mx-auto h-28 w-28" />
-                <p className="mt-4 font-serif text-3xl">Viano Saúde</p>
-                <p className="mt-1 text-xs uppercase tracking-[.25em] text-slate-brand">Clínica médica</p>
-              </div>
-            </div>
-          </div>
-
-          <motion.div style={{ y: yCard }} className="absolute -left-4 bottom-10 sm:-left-8">
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="flex items-center gap-3 rounded-2xl bg-white/90 p-3 pr-5 shadow-soft backdrop-blur"
-            >
-              <img src="/dr-otavio.png" alt="Dr. Otávio Viano" className="h-14 w-14 rounded-full object-cover" />
-              <div>
-                <p className="text-sm font-semibold">Dr. Otávio Viano</p>
-                <p className="text-xs text-cocoa/60">Pós em Endocrinologia</p>
-              </div>
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute -right-2 top-10 flex sm:-right-5 items-center gap-2 rounded-2xl bg-cocoa px-4 py-3 text-cream shadow-soft"
-          >
-            <Sparkles size={16} className="text-gold" />
-            <span className="text-sm font-medium">Atendimento individualizado</span>
-          </motion.div>
+          <RingText />
+          <motion.img
+            src="/logo-viano.png"
+            alt="Logo da Clínica Viano Saúde"
+            className="absolute inset-[13%] h-[74%] w-[74%] rounded-full shadow-soft"
+            whileHover={{ scale: 1.04, rotate: 3 }}
+            transition={{ type: "spring", stiffness: 200, damping: 14 }}
+          />
         </motion.div>
       </div>
     </section>

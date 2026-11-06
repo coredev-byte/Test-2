@@ -1,78 +1,76 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Logo from "./Logo.jsx";
 import { waLink } from "../config.js";
 
 const links = [
-  ["Sobre", "#sobre"],
+  ["Resultados", "#resultados"],
+  ["O médico", "#sobre"],
   ["Tratamentos", "#tratamentos"],
-  ["Como funciona", "#como-funciona"],
   ["Dúvidas", "#faq"],
 ];
 
 export default function Navbar() {
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // esconde ao rolar para baixo, mostra ao rolar para cima
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    setHidden(y > prev && y > 400 && !open);
+    setScrolled(y > 24);
+  });
+
+  useEffect(() => { document.body.style.overflow = open ? "hidden" : ""; }, [open]);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
-        scrolled ? "bg-cream/85 py-3 shadow-[0_8px_30px_-18px_rgba(62,44,35,.35)] backdrop-blur-md" : "py-5"
-      }`}
-    >
-      <nav className="container-x flex items-center justify-between">
-        <Logo />
-        <ul className="hidden items-center gap-8 text-sm font-medium text-cocoa/75 md:flex">
-          {links.map(([label, href]) => (
-            <li key={href}>
-              <a href={href} className="group relative transition hover:text-cocoa">
-                {label}
-                <span className="absolute -bottom-1 left-0 h-px w-0 bg-slate-brand transition-all duration-300 group-hover:w-full" />
-              </a>
-            </li>
-          ))}
-        </ul>
-        <a href={waLink()} target="_blank" rel="noopener noreferrer" className="btn-primary hidden !px-5 !py-2.5 md:inline-flex">
-          Agendar consulta
-        </a>
-        <button className="rounded-full p-2 md:hidden" onClick={() => setOpen((v) => !v)} aria-label="Abrir menu">
-          {open ? <X /> : <Menu />}
-        </button>
-      </nav>
+    <>
+      <motion.header
+        animate={{ y: hidden ? "-110%" : 0 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed inset-x-0 top-0 z-40 transition-[background,padding] duration-300 ${scrolled ? "bg-paper/90 py-3 shadow-[0_1px_0_rgba(74,56,44,.08)] backdrop-blur" : "py-6"}`}
+      >
+        <nav className="container-x flex items-center justify-between">
+          <Logo />
+          <ul className="hidden items-center gap-9 text-[13px] font-medium text-cocoa md:flex">
+            {links.map(([label, href]) => (
+              <li key={href}><a href={href} className="link-line !pb-0.5 !font-medium after:!scale-x-0 hover:after:!scale-x-100">{label}</a></li>
+            ))}
+          </ul>
+          <a href={waLink()} target="_blank" rel="noopener noreferrer" className="hidden rounded-full border border-cocoa px-5 py-2.5 text-[13px] font-semibold text-cocoa transition hover:bg-cocoa hover:text-cream md:inline-block">
+            Agendar consulta
+          </a>
+          <button className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden" onClick={() => setOpen((v) => !v)} aria-label={open ? "Fechar menu" : "Abrir menu"}>
+            <motion.span animate={open ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }} className="block h-px w-6 bg-cocoa" />
+            <motion.span animate={open ? { rotate: -45, y: -3 } : { rotate: 0, y: 0 }} className="block h-px w-6 bg-cocoa" />
+          </button>
+        </nav>
+      </motion.header>
 
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden bg-cream md:hidden"
+            initial={{ clipPath: "circle(0% at 92% 4%)" }}
+            animate={{ clipPath: "circle(150% at 92% 4%)" }}
+            exit={{ clipPath: "circle(0% at 92% 4%)" }}
+            transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+            className="paper fixed inset-0 z-30 flex flex-col justify-center px-8 md:hidden"
           >
-            <ul className="container-x flex flex-col gap-1 py-4">
-              {links.map(([label, href]) => (
-                <li key={href}>
-                  <a href={href} onClick={() => setOpen(false)} className="block rounded-xl px-3 py-3 font-medium hover:bg-sand">
-                    {label}
-                  </a>
-                </li>
+            <ul className="space-y-3">
+              {links.map(([label, href], i) => (
+                <motion.li key={href} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 + i * 0.07 }}>
+                  <a href={href} onClick={() => setOpen(false)} className="font-display text-5xl text-slate-brand">{label}</a>
+                </motion.li>
               ))}
-              <li className="pt-2">
-                <a href={waLink()} target="_blank" rel="noopener noreferrer" className="btn-primary w-full">
-                  Agendar consulta
-                </a>
-              </li>
             </ul>
+            <motion.a initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} href={waLink()} target="_blank" rel="noopener noreferrer" className="btn-primary mt-12 self-start">
+              Agendar pelo WhatsApp
+            </motion.a>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

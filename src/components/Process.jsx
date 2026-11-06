@@ -1,41 +1,48 @@
-import { motion } from "framer-motion";
-import Reveal from "./Reveal.jsx";
+import { useRef } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
+import Reveal, { SplitWords } from "./Reveal.jsx";
 
 const steps = [
-  ["01", "Agendamento", "Você chama no WhatsApp e escolhe o melhor horário."],
-  ["02", "Consulta completa", "Anamnese detalhada, avaliação física e definição de objetivos."],
-  ["03", "Exames e plano", "Interpretação de exames e protocolo feito sob medida para você."],
-  ["04", "Acompanhamento", "Retornos e ajustes para manter a evolução com segurança."],
+  ["Você chama no WhatsApp", "A equipe responde com os horários livres e o que levar no dia."],
+  ["Primeira consulta", "Histórico, exame físico, medidas e conversa sobre o que você quer mudar."],
+  ["Exames e plano", "Com os resultados em mãos, o protocolo é montado para o seu caso."],
+  ["Retornos", "Acompanhamento da evolução e ajustes sempre que o corpo pedir."],
 ];
 
 export default function Process() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 70%", "end 60%"] });
+  const fill = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
   return (
-    <section id="como-funciona" className="py-24 md:py-32">
-      <div className="container-x">
-        <div className="max-w-2xl">
-          <Reveal><span className="eyebrow">Como funciona</span></Reveal>
-          <Reveal delay={0.1}><h2 className="h-section mt-5">Do primeiro contato ao resultado, em 4 passos.</h2></Reveal>
+    <section id="como-funciona" className="py-24 md:py-36">
+      <div className="container-x grid gap-14 md:grid-cols-[.9fr_1.1fr] md:gap-24">
+        <div className="md:sticky md:top-32 md:self-start">
+          <Reveal><p className="kicker">Como funciona</p></Reveal>
+          <h2 className="h-section mt-6"><SplitWords text="Quatro passos até o seu plano." /></h2>
         </div>
-        <div className="relative mt-16 grid gap-10 md:grid-cols-4 md:gap-6">
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 right-0 top-7 hidden h-px origin-left bg-gradient-to-r from-cocoa via-slate-brand to-gold md:block"
-          />
-          {steps.map(([n, title, text], i) => (
-            <Reveal key={n} delay={0.2 + i * 0.15}>
-              <div className="relative">
-                <span className="relative z-10 grid h-14 w-14 place-items-center rounded-full border border-cocoa/15 bg-cream font-serif text-xl text-slate-brand shadow-soft">
-                  {n}
-                </span>
-                <h3 className="mt-6 text-lg font-semibold">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-cocoa/70">{text}</p>
-              </div>
-            </Reveal>
+
+        <ol ref={ref} className="relative pl-16">
+          <span className="absolute bottom-6 left-[22px] top-6 w-px bg-cocoa/15" />
+          <motion.span style={{ scaleY: fill }} className="absolute bottom-6 left-[22px] top-6 w-px origin-top bg-slate-brand" />
+          {steps.map(([t, d], i) => (
+            <li key={t} className="relative pb-16 last:pb-0">
+              <motion.span
+                initial={{ scale: 0.4, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true, margin: "-35% 0px" }}
+                transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                className="absolute -left-16 top-0 grid h-11 w-11 place-items-center rounded-full bg-slate-brand font-display text-lg text-cream"
+              >
+                {i + 1}
+              </motion.span>
+              <Reveal y={24}>
+                <h3 className="font-display text-2xl text-cocoa md:text-3xl">{t}</h3>
+                <p className="mt-3 max-w-md text-[15px] leading-relaxed text-cocoa/70">{d}</p>
+              </Reveal>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
